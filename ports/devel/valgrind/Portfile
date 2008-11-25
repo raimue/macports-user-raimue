@@ -1,0 +1,61 @@
+# $Id$
+
+PortSystem 1.0
+
+name                    valgrind
+set valgrind_rev        8180
+set vex_rev             1854
+set patchlevel          4
+version                 3.3.1-osx-${patchlevel}
+categories              devel
+platforms               darwin
+maintainers             raimue
+
+description             Valgrind is a powerful open-source memory debugger.
+long_description \
+    Valgrind is a powerful open-source memory debugger. This is a port of \
+    Valgrind for Mac OS X. It is UNSUPPORTED and INCOMPLETE and BUGGY. It may \
+    not find bugs in your program, or run your program correctly, or run your \
+    program at all.
+homepage                http://www.sealiesoftware.com/valgrind/
+
+master_sites
+distfiles
+patch_sites              ${homepage}
+patchfiles               valgrind-opensource-${patchlevel}.patch.gz
+checksums                valgrind-opensource-${patchlevel}.patch.gz \
+                            md5     2eeeeb63a200e730e199a40321cefc88 \
+                            sha1    9d4554cd91a131901b802ecce87e11b0621c9bb6 \
+                            rmd160  7e5ad6b72aa5bcfbbc15eeb8138fb473be02a7d4
+
+worksrcdir              trunk
+
+depends_build           bin:svn:subversion
+
+pre-fetch {
+    if {[file isdirectory ${distpath}/${valgrind_rev}]} {
+        if {![file isdirectory ${distpath}/${valgrind_rev}/trunk/.svn]} {
+             file delete -force ${distpath}/${valgrind_rev}
+        }
+    }
+
+    if {![file isdirectory ${distpath}/${valgrind_rev}]} {
+        file mkdir ${distpath}/${valgrind_rev}
+        system "svn co -r${valgrind_rev} --ignore-externals svn://svn.valgrind.org/valgrind/trunk ${distpath}/${valgrind_rev}/trunk"
+        system "svn co -r${vex_rev} svn://svn.valgrind.org/vex/trunk ${distpath}/${valgrind_rev}/trunk/VEX"
+    }
+}
+
+pre-extract {
+    file copy ${distpath}/${svn_rev}/trunk ${worksrcpath}
+}
+
+patch.pre_args -p1
+
+pre-configure {
+    system "cd ${worksrcpath} && ./autogen.sh"
+}
+
+livecheck.check         regex
+livecheck.version       ${patchlevel}
+livecheck.regex         valgrind-opensource-(\\d+).patch.gz
