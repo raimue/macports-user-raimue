@@ -47,7 +47,7 @@ pre-fetch {
 }
 
 pre-extract {
-    file copy ${distpath}/${svn_rev}/trunk ${worksrcpath}
+    file copy ${distpath}/${valgrind_rev}/trunk ${worksrcpath}
 }
 
 patch.pre_args -p1
