@@ -1,0 +1,24 @@
+# $Id$
+
+PortSystem          1.0
+
+name                faumachine-bios
+version             20090302
+categories          emulators
+platforms           darwin
+maintainers         raimue
+description         Pre-built BIOS rom images for FAUmachine
+long_description \
+    For systems which do not allow to compile the BIOSes for FAUmachine's \
+    mainboards and graphics adapters, like Mac OS X.
+
+homepage            http://www3.informatik.uni-erlangen.de/Research/FAUmachine
+master_sites        ${homepage}/bios/
+
+checksums           md5     4af59511bc989487db0a794de4554590
+
+use_autoreconf      yes
+
+livecheck.check     regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}

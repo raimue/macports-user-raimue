@@ -1,0 +1,43 @@
+# $Id$
+
+PortSystem          1.0
+
+name                faumachine
+version             20090512
+categories          emulators
+platforms           darwin
+maintainers         raimue
+description         Virtual machine running in user mode
+long_description \
+   FAUmachine is a virtual machine running in user mode. It has hardware \
+   fault injection capability and supports running automated tests, e.g. for \
+   testing OS installations.
+
+homepage            http://www3.informatik.uni-erlangen.de/Research/FAUmachine/
+master_sites        ${homepage}/downloads/
+
+checksums           md5     2010852d91006140a72cf65fcb79bd00
+
+depends_build \
+    bin:autoconf:autoconf \
+    bin:automake:automake \
+    port:pkgconfig \
+    port:xmlto
+
+depends_lib \
+    port:fauhdlc \
+    port:faumachine-bios \
+    port:gtk2 \
+    port:libpng \
+    port:libtheora
+
+depends_run \
+    port:zenity
+
+use_autoreconf      yes
+configure.args      --with-fauhdli-dir=${prefix} \
+                    --disable-build-bios
+
+livecheck.check     regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}

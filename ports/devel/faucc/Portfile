@@ -1,0 +1,30 @@
+# $Id$
+
+PortSystem          1.0
+
+name                faucc
+version             20090220
+categories          devel
+platforms           darwin
+maintainers         raimue
+
+description         C-Compiler, designed to generate 16-bit x86 code
+long_description \
+  FAUcc is an optimizing C compiler that can generate Intel code for \
+  16bit/32bit CPUs. It is useful, if you are in need to compile real mode \
+  code, like a BIOS.
+
+homepage            http://www3.informatik.uni-erlangen.de/Research/FAUcc/
+master_sites        ${homepage}/downloads/
+
+checksums           md5 57f4150a5dc485a5c516c44c62ad7558
+
+depends_build       bin:autoreconf:autoconf \
+                    bin:automake:automake \
+                    port:xmlto
+
+use_autoreconf yes
+
+livecheck.check     regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}

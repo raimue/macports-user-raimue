@@ -1,0 +1,33 @@
+# $Id$
+
+PortSystem          1.0
+
+name                fauhdlc
+version             20090512
+categories          devel
+platforms           darwin
+maintainers         raimue
+
+description         VHDL compiler and interpreter
+long_description \
+   fauhdlc is an experimental VHDL compiler and interpreter. It can compile a \
+   subset of VHDL 2000 to an intermediate language. The result can be simulated \
+   with an interpreter.
+
+homepage            http://www3.informatik.uni-erlangen.de/Research/fauhdlc/
+master_sites        ${homepage}/downloads/
+
+checksums           md5 6c912ad5f4d35b8061032ea875f59f27
+
+depends_build       bin:autoreconf:autoconf \
+                    bin:automake:automake \
+                    port:flex \
+                    port:xmlto
+
+patchfiles          patch-configure.ac.diff
+
+use_autoreconf yes
+
+livecheck.check     regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}
