@@ -26,3 +26,5 @@ depends_build           bin:svn:subversion
 pre-configure {
     system "cd ${worksrcpath} && ./autogen.sh"
 }
+
+livecheck.check         none
