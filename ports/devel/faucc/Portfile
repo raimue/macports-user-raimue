@@ -25,6 +25,6 @@ depends_build       bin:autoreconf:autoconf \
 
 use_autoreconf yes
 
-livecheck.check     regex
+livecheck.type      regex
 livecheck.url       [lindex ${master_sites} 0]
 livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}

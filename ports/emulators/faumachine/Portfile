@@ -40,6 +40,6 @@ use_autoreconf      yes
 configure.args      --with-fauhdli-dir=${prefix} \
                     --disable-build-bios
 
-livecheck.check     regex
+livecheck.type      regex
 livecheck.url       [lindex ${master_sites} 0]
 livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}

@@ -19,6 +19,6 @@ checksums           md5     4af59511bc989487db0a794de4554590
 
 use_autoreconf      yes
 
-livecheck.check     regex
+livecheck.type      regex
 livecheck.url       [lindex ${master_sites} 0]
 livecheck.regex     ${name}-(\[0-9\]+)${extract.suffix}
