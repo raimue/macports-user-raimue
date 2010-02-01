@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                fauhdlc
-version             20090922
+version             20091119
 categories          devel
 platforms           darwin
 maintainers         raimue
@@ -17,9 +17,9 @@ long_description \
 homepage            http://www3.informatik.uni-erlangen.de/Research/fauhdlc/
 master_sites        ${homepage}/downloads/
 
-checksums           md5     6b1be17c5685d15bcf0c6dc5c6dbde6b \
-                    sha1    be5799c6a79c3a77d08d782709081caf90d517bb \
-                    rmd160  b6bae2dabc62c16e8a8b515d84809ea894c1ef91
+checksums           md5     1d674332b92614d980bff26958f2c44c \
+                    sha1    3b7cd8b659a6ff6b5ba199bf3928dc539cef5d6e \
+                    rmd160  19114058c5043930f5501246359ba3d47852b247
 
 depends_build       bin:autoreconf:autoconf \
                     bin:automake:automake \
