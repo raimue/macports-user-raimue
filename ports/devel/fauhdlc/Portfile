@@ -4,6 +4,7 @@ PortSystem          1.0
 
 name                fauhdlc
 version             20091119
+revision            1
 categories          devel
 platforms           darwin
 maintainers         raimue
@@ -25,8 +26,6 @@ depends_build       bin:autoreconf:autoconf \
                     bin:automake:automake \
                     port:flex \
                     port:xmlto
-
-patchfiles          patch-configure.ac.diff
 
 use_autoreconf yes
 
