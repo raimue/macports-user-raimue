@@ -22,9 +22,7 @@ checksums           md5     1d674332b92614d980bff26958f2c44c \
                     sha1    3b7cd8b659a6ff6b5ba199bf3928dc539cef5d6e \
                     rmd160  19114058c5043930f5501246359ba3d47852b247
 
-depends_build       bin:autoreconf:autoconf \
-                    bin:automake:automake \
-                    port:flex \
+depends_build       port:flex \
                     port:xmlto
 
 use_autoreconf yes

@@ -21,8 +21,6 @@ checksums           md5     56f4fd79f7999db6dd0816dcb9270a01 \
                     rmd160  d7703b24afbff452b0ce04c4062f31e53273a16f
 
 depends_build \
-    bin:autoconf:autoconf \
-    bin:automake:automake \
     port:pkgconfig \
     port:xmlto
 
