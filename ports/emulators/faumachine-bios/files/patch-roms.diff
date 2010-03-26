@@ -1,0 +1,10 @@
+--- roms/Makefile.am.orig	2010-03-26 14:46:24.000000000 +0100
++++ roms/Makefile.am	2010-03-26 14:46:35.000000000 +0100
+@@ -8,6 +8,7 @@
+ 
+ 
+ rom_DATA = \
++	   bios.cmos \
+ 	   bios.rom \
+ 	   cirrus_vga_bios.rom \
+ 	   mb_ibm_at_bios.rom-0 \

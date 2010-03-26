@@ -3,8 +3,7 @@
 PortSystem          1.0
 
 name                fauhdlc
-version             20091119
-revision            1
+version             20100325
 categories          devel
 platforms           darwin
 maintainers         raimue
@@ -18,9 +17,9 @@ long_description \
 homepage            http://www3.informatik.uni-erlangen.de/Research/fauhdlc/
 master_sites        ${homepage}/downloads/
 
-checksums           md5     1d674332b92614d980bff26958f2c44c \
-                    sha1    3b7cd8b659a6ff6b5ba199bf3928dc539cef5d6e \
-                    rmd160  19114058c5043930f5501246359ba3d47852b247
+checksums           md5     d25d269430da4525b4da51901155a642 \
+                    sha1    da526f5c549ab48c535c885c5da114284803df38 \
+                    rmd160  5854868c118193ea792e4fee67f3a8c7127856cd
 
 depends_build       port:flex \
                     port:xmlto
