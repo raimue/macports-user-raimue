@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                faumachine
-version             20100421
+version             20100527
 categories          emulators
 platforms           darwin
 maintainers         raimue
@@ -16,9 +16,9 @@ long_description \
 homepage            http://www3.informatik.uni-erlangen.de/Research/FAUmachine/
 master_sites        ${homepage}/downloads/
 
-checksums           md5     0f98f58055e61e7abf021055bf790a8e \
-                    sha1    0f9eca3ebdd8c5ec7f2956ef3bdbf9dcbc0e948e \
-                    rmd160  860cb436b5c929b10c5ef1fd193b51f8833b495d
+checksums           md5     1c648b945fd71d979079d00754b832a1 \
+                    sha1    cb08cfeb8c246aef7b24ef90e693ae2b6a9c65eb \
+                    rmd160  d5b6dddcd9b6a1f259ab44c2218a8580c6a9cc54
 
 depends_build \
     port:pkgconfig \

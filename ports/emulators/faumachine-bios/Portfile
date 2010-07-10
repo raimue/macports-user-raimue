@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                faumachine-bios
-version             20100421
+version             20100527
 categories          emulators
 platforms           darwin
 maintainers         raimue
@@ -15,9 +15,9 @@ long_description \
 homepage            http://www3.informatik.uni-erlangen.de/Research/FAUmachine
 master_sites        ${homepage}/bios/
 
-checksums           md5     65c3c56a51f632d14ecb37915b80aa3e \
-                    sha1    ab859fa736974f3664317cbbf6112c6d30a38c49 \
-                    rmd160  6a5c17439a89588c2ecfb2e68093d127ccdc019b
+checksums           md5     4dae8d477a2fa32e221fe144f79b89a2 \
+                    sha1    ef48d2f2011d3678ceef839182d0f2371a3a63a9 \
+                    rmd160  6bf7cc18d9d2dd5bcfeb7c83172bc3b557f1522c
 
 patchfiles          patch-roms.diff
 
