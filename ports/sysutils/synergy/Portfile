@@ -54,5 +54,4 @@ destroot {
 }
 
 startupitem.create      yes
-startupitem.name        Synergy
 startupitem.executable  "${prefix}/bin/synergys --no-daemon"
