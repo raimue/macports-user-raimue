@@ -40,12 +40,12 @@ post-patch {
 }
 
 destroot {
-        # xinstall -d ${destroot}${prefix}/bin
+        xinstall -d ${destroot}${prefix}/bin
         xinstall -m 755 ${worksrcpath}/bin/synergyc ${destroot}${prefix}/bin
         xinstall -m 755 ${worksrcpath}/bin/synergys ${destroot}${prefix}/bin
         xinstall -m 644 ${worksrcpath}/doc/synergyc.man ${destroot}${prefix}/share/man/man1/synergyc.1
         xinstall -m 644 ${worksrcpath}/doc/synergys.man ${destroot}${prefix}/share/man/man1/synergys.1
-        # xinstall -d ${destroot}${prefix}/etc/${name}
+        xinstall -d ${destroot}${prefix}/etc/${name}
         xinstall -m 644 -W ${worksrcpath}/doc/ \
             synergy.conf.example \
             synergy.conf.example-advanced \
