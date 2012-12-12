@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                faucc
-version             20090220
+version             20120707
 categories          devel
 platforms           darwin
 maintainers         raimue
@@ -17,11 +17,11 @@ long_description \
 homepage            http://www3.informatik.uni-erlangen.de/Research/FAUcc/
 master_sites        ${homepage}/downloads/
 
-checksums           md5 57f4150a5dc485a5c516c44c62ad7558
+checksums           md5     808d1b2847a04e365818bb09932c2376 \
+                    rmd160  22eddcaedde415ae161cd17531ece498a6f7888a \
+                    sha256  5d5d6e1d360b71902597bfdf7b9251ed2784a7c25c2c8520cc29f73a697b0fdc
 
-depends_build       bin:autoreconf:autoconf \
-                    bin:automake:automake \
-                    port:xmlto
+depends_build       port:xmlto
 
 use_autoreconf yes
 
