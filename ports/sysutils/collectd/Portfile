@@ -319,6 +319,14 @@ variant email description {EMail statistics} {
     configure.args-append --enable-email
 }
 
+variant tokyotyrant description {TokyoTyrant database statistics} {
+    configure.args-delete --disable-tokyotyrant
+    configure.args-append --enable-tokyotyrant
+
+    depends_lib-delete port:tokyotyrant
+    depends_lib-append port:tokyotyrant
+}
+
 variant ntpd description {NTPd statistics} {
     configure.args-delete --disable-ntpd
     configure.args-append --enable-ntpd
@@ -404,6 +412,14 @@ variant curl_xml description {CURL generic xml statistics} {
 
     depends_lib-delete port:curl port:libxml2
     depends_lib-append port:curl port:libxml2
+}
+
+variant varnish description {Varnish cache statistics} {
+    configure.args-delete --disable-varnish
+    configure.args-append --enable-varnish
+
+    depends_lib-delete port:varnish
+    depends_lib-append port:varnish
 }
 
 variant multimeter description {Read multimeter values} {
