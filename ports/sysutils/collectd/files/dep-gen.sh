@@ -230,7 +230,6 @@ OSX_STANDARD=(
 	load
 	logfile
 	mbmon
-	memcached
 	memory
 	multimeter
 	network
