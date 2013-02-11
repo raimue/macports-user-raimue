@@ -4,8 +4,7 @@
 PortSystem          1.0
 
 name                collectd
-version             5.2.0
-revision            1
+version             5.2.1
 categories          sysutils net
 platforms           darwin
 license             GPL-2
@@ -20,8 +19,8 @@ homepage            http://collectd.org/
 master_sites        http://collectd.org/files/
 use_bzip2 yes
 
-checksums           sha1 2176c80f804559edb3ef3a4dfea459e67f6cecbe \
-                    sha256 3f8dd235b8e2493a4ad558e3cd15b89007a0deaaef5481782d1e8e048dd43e4f
+checksums           sha1 593b6ab96200b4b5f357280d93025a3287163f6d \
+                    sha256 d82a5c302d2cfa0c3f7a3c7b7e37fb3faf42b17d2addae036cb819b6b25b9d98
 
 # collectd uses -Werror in their CFLAGS, which turns warnings into errors.
 # Some of these are not fixable and thus need to be suppressed when clang
