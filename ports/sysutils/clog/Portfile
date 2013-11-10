@@ -20,3 +20,6 @@ master_sites        http://taskwarrior.org/download/
 
 checksums           rmd160  c40e83e15417d39881ad0acb1a35496df394131f \
                     sha256  ff4ac19b2622d49b4fca0d44ee3659398f3486f54d77562650e45310c6a5d4f7
+
+livecheck.type      regex
+livecheck.regex     ${name}-(\\d(\\.\\d)+)\\.tar
