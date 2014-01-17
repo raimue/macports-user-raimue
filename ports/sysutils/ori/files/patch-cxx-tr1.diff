@@ -1,0 +1,116 @@
+Upstream: https://bitbucket.org/orifs/ori/commits/7c5f894d87be1c79447fc7af9381a65307429801
+
+From 7c5f894d87be1c79447fc7af9381a65307429801 Mon Sep 17 00:00:00 2001
+From: Ali Mashtizadeh <mashti@cs.stanford.edu>
+Date: Sat, 28 Sep 2013 18:19:06 -0700
+Subject: [PATCH] Fix FreeBSD 10 and C++11 issues.
+
+---
+ libori/peer.cc       | 2 --
+ libori/remoterepo.cc | 2 --
+ libori/sshrepo.cc    | 2 --
+ libori/treediff.cc   | 2 --
+ libori/udsrepo.cc    | 2 --
+ libori/udsserver.cc  | 2 +-
+ orisync/server.cc    | 2 +-
+ 7 files changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/libori/peer.cc b/libori/peer.cc
+index b5cd5f6..2a361bd 100644
+--- a/libori/peer.cc
++++ b/libori/peer.cc
+@@ -34,9 +34,7 @@
+ #include <ori/peer.h>
+ 
+ using namespace std;
+-#ifdef HAVE_CXXTR1
+ using namespace std::tr1;
+-#endif /* HAVE_CXXTR1 */
+ 
+ /********************************************************************
+  *
+diff --git a/libori/remoterepo.cc b/libori/remoterepo.cc
+index ec62a4d..e589ad4 100644
+--- a/libori/remoterepo.cc
++++ b/libori/remoterepo.cc
+@@ -34,9 +34,7 @@
+ #include <ori/remoterepo.h>
+ 
+ using namespace std;
+-#ifdef HAVE_CXXTR1
+ using namespace std::tr1;
+-#endif /* HAVE_CXXTR1 */
+ 
+ RemoteRepo::RemoteRepo()
+     : r(NULL)
+diff --git a/libori/sshrepo.cc b/libori/sshrepo.cc
+index 76fdba9..7011808 100644
+--- a/libori/sshrepo.cc
++++ b/libori/sshrepo.cc
+@@ -38,9 +38,7 @@
+ #include <ori/sshrepo.h>
+ 
+ using namespace std;
+-#ifdef HAVE_CXXTR1
+ using namespace std::tr1;
+-#endif /* HAVE_CXXTR1 */
+ 
+ /*
+  * SshRepo
+diff --git a/libori/treediff.cc b/libori/treediff.cc
+index 49a0aab..1d4a63a 100644
+--- a/libori/treediff.cc
++++ b/libori/treediff.cc
+@@ -33,9 +33,7 @@
+ #include <ori/largeblob.h>
+ 
+ using namespace std;
+-#ifdef HAVE_CXXTR1
+ using namespace std::tr1;
+-#endif /* HAVE_CXXTR1 */
+ 
+ TreeDiffEntry::TreeDiffEntry()
+     : type(Noop),
+diff --git a/libori/udsrepo.cc b/libori/udsrepo.cc
+index b489bf3..84051c1 100644
+--- a/libori/udsrepo.cc
++++ b/libori/udsrepo.cc
+@@ -34,9 +34,7 @@
+ #include <ori/udsrepo.h>
+ 
+ using namespace std;
+-#ifdef HAVE_CXXTR1
+ using namespace std::tr1;
+-#endif /* HAVE_CXXTR1 */
+ 
+ /*
+  * UDSRepo
+diff --git a/libori/udsserver.cc b/libori/udsserver.cc
+index ca89da1..0149f92 100644
+--- a/libori/udsserver.cc
++++ b/libori/udsserver.cc
+@@ -58,7 +58,7 @@ UDSServer::UDSServer(LocalRepo *repo)
+     strcpy(addr.sun_path, fuseSock.c_str());
+     unlink(fuseSock.c_str());
+     len = SUN_LEN(&addr);
+-    status = bind(sock, (struct sockaddr *)&addr, len);
++    status = ::bind(sock, (struct sockaddr *)&addr, len);
+     if (status < 0)
+         throw SystemException();
+ 
+diff --git a/orisync/server.cc b/orisync/server.cc
+index c538339..0dcdeb3 100644
+--- a/orisync/server.cc
++++ b/orisync/server.cc
+@@ -172,7 +172,7 @@ public:
+         addr.sin_addr.s_addr = htonl(INADDR_ANY);
+         addr.sin_port = htons(ORISYNC_UDPPORT);
+ 
+-        status = bind(fd, (struct sockaddr *)&addr, sizeof(addr));
++        status = ::bind(fd, (struct sockaddr *)&addr, sizeof(addr));
+         if (status < 0) {
+             perror("bind");
+             close(fd);
+-- 
+1.8.5.2
+

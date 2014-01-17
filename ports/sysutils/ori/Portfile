@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+
+name                ori
+version             0.8.0
+categories          sysutils
+platforms           darwin
+maintainers         raimue
+license             ISC Permissive
+
+description         A secure distributed file system
+
+long_description \
+    Ori is a distributed file system built for offline operation and empowers \
+    the user with control over synchronization operations and conflict \
+    resolution. It provides history through light weight snapshots and allow \
+    users to verify the history has not been tampered with. Through the use of \
+    replication instances can be resilient and recover damaged data from other \
+    nodes.
+
+homepage            http://ori.scs.stanford.edu/
+master_sites        https://bitbucket.org/orifs/ori/downloads/
+use_xz yes
+
+checksums           rmd160  9861edad04ab6df399525256df97862234acd507 \
+                    sha256  0589db3480e733dbeba2a1f6be6553701684b283507437c7500ad069f4b49631
+
+depends_build       port:scons \
+                    path:bin/pkg-config:pkgconfig
+depends_lib         path:lib/pkgconfig/fuse.pc:fuse4x \
+                    port:libevent \
+                    port:boost \
+                    port:openssl
+
+patchfiles          patch-cxx-tr1.diff \
+                    patch-destdir.diff
+patch.pre_args      -p1
+
+use_configure       no
+
+build.cmd           scons
+build.target
+build.args          CC=${configure.cc} \
+                    CXX=${configure.cxx} \
+                    CPPFLAGS="${configure.cppflags}" \
+                    CFLAGS="${configure.cflags} [get_canonical_archflags cc]" \
+                    LINKFLAGS="${configure.ldflags} [get_canonical_archflags ld]" \
+                    PREFIX=${prefix} \
+                    BUILDTYPE=RELEASE \
+                    WITH_FUSE=1 \
+                    WITH_HTTPD=0 \
+                    WITH_ORILOCAL=0 \
+                    WITH_MDNS=0 \
+                    VERBOSE=1
+
+# libs3 is GPLv3, linking would make this non-distributable
+build.args-append   WITH_LIBS3=0
+
+destroot.cmd        scons
+eval destroot.args  ${build.args}
+destroot.destdir    DESTDIR=${destroot}
+
+default_variants    +mdns +httpd
+
+variant mdns description {Include Zeroconf/mDNS support} {
+    build.args-replace WITH_MDNS=0 WITH_MDNS=1
+}
+
+variant httpd description {Include HTTPD server} {
+    build.args-replace WITH_HTTPD=0 WITH_HTTPD=1
+}
+
+variant checkout description {Include Ori checkout support} {
+    build.args-replace WITH_ORILOCAL=0 WITH_ORILOCAL=1
+}
