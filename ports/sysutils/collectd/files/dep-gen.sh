@@ -97,10 +97,12 @@ PLUGINS=(
 	[sensors]="lm_sensors statistics"
 	[serial]="serial port traffic"
 	[snmp]="SNMP querying plugin"
+	[stats]="StatsD plugin"
 	[swap]="Swap usage statistics"
 	[syslog]="Syslog logging plugin"
 	[table]="Parsing of tabular data"
 	[tail]="Parsing of logfiles"
+	[tail_csv]="Parsing of CSV files"
 	[tape]="Tape drive statistics"
 	[tcpconns]="TCP connection statistics"
 	[teamspeak2]="TeamSpeak2 server statistics"
@@ -127,7 +129,7 @@ PLUGINS=(
 # list of required dependencies by plugin
 declare -A PLUGIN_DEPS
 PLUGIN_DEPS=(
-	[amqp]="port:librabbitmq"
+	[amqp]="port:rabbitmq-c"
 	[apache]="port:curl"
 	[ascent]="port:curl port:libxml2"
 	[bind]="port:curl port:libxml2"
@@ -137,42 +139,35 @@ PLUGIN_DEPS=(
 	[dbi]="port:libdbi"
 	[dns]="port:libpcap"
 	[gmond]="port:ganglia"
-	[ipmi]="port:openipmithread"
 	[libvirt]="port:libvirt port:libxml2"
 	[memcachec]="port:libmemcached"
 	[memcached]="port:libmemcached"
-	[modbus]="port:libmodbus"
 	[mysql]="path:lib/mysql5/mysql/libmysqlclient.dylib:mysql5"
-	[netapp]="port:libnetapp"
-	[netlink]="port:libnetlink"
 	[network]="port:libgcrypt"
 	[nginx]="port:curl"
 	[notify_desktop]="port:libnotify"
 	[notify_email]="port:libesmtp"
 	[nut]="port:nut"
-	[onewire]="port:libowcapi"
-	[perl]="port:perl5.16"
-	[pinba]="port:protobuf-c port:protoc-c"
-	[ping]="port:liboping"
+	[perl]="port:perl5.18"
+	[pinba]="port:protobuf-c"
 	[postgresql]="port:postgresql91"
 	[python]="port:python27"
 	[redis]="port:libcredis"
-	[routeros]="port:librouteros"
 	[rrdcached]="port:rrdtool"
 	[rrdtool]="port:rrdtool"
-	[sensors]="port:libsensors"
 	[snmp]="port:net-snmp"
 	[tokyotyrant]="port:tokyotyrant"
 	[varnish]="port:varnish"
 	[write_http]="port:curl"
-	[write_redis]="port:libcredis"
+	[write_riemann]="port:protobuf-c"
 	[xmms]="port:xmms"
 )
 
 # list of useless modules on OS X
 declare -A OSX_BLACKLIST
 OSX_BLACKLIST=(
-	[amqp]=1		# requires librabbitmq, which is not available
+	[aquaero]=1		# requires libaquaero5, which is not available
+	[cgroups]=1		# Linux only
 	[conntrack]=1	# Linux only
 	[cpufreq]=1		# Linux only
 	[entropy]=1		# Linux only
@@ -181,16 +176,17 @@ OSX_BLACKLIST=(
 	[iptables]=1	# Linux only
 	[ipvs]=1		# Linux only
 	[irq]=1			# Linux only
+	[lvm]=1			# Linux only
 	[madwifi]=1		# Linux only
 	[md]=1			# Linux only
+	[mic]=1			# Intel Many Integrated Core (Xeon Phi) only
 	[modbus]=1		# requires libmodbus, which is not available
 	[netapp]=1		# requires libnetapp, which is not available
-	[netlink]=1		# requires libnetlink, which is not available
+	[netlink]=1		# requires libmnl, which is not available
 	[nfs]=1			# Linux only
 	[onewire]=1		# requires libowcapu, which is not available
 	[oracle]=1		# requires libclntsh, which is not available
 	[perfstat]=1	# AIX only
-	[pinba]=1		# requires protoc-c, which is not available
 	[ping]=1		# requires liboping, which is not available
 	[processes]=1	# No OS X support
 	[protocols]=1	# Linux only
@@ -198,18 +194,21 @@ OSX_BLACKLIST=(
 	[routeros]=1	# requires librouteros, which is not available
 	[sensors]=1		# requires libsensors, which is not available
 	[serial]=1		# Linux only
+	[sigrok]=1		# requires libsigrok, which is not available
 	[tape]=1		# Solaris only
 	[thermal]=1		# Linux only
 	[vmem]=1		# Linux only
 	[vserver]=1		# Linux only
 	[wireless]=1	# Linux only
-	[write_redis]=1 # requires libcredis, which is not available
+	[write_mongodb]=1	# requires libmongoc, which is not available
+	[write_redis]=1	# requires libcredis, which is not available
 	[zfs_arc]=1		# Solaris only
 )
 
 # list of standard modules on OS X
 declare -a OSX_STANDARD
 OSX_STANDARD=(
+	aggregation
 	apache
 	apcups
 	apple_sensors
@@ -238,10 +237,12 @@ OSX_STANDARD=(
 	openvpn
 	rrdcached
 	rrdtool
+	statsd
 	swap
 	syslog
 	table
 	tail
+	tail_csv
 	tcpconns
 	teamspeak2
 	ted
@@ -250,12 +251,13 @@ OSX_STANDARD=(
 	uptime
 	users
 	uuid
+	write_graphite
 	write_http
 )
 
 declare -A EXTRA_CODE
 read -r -d '' PERL_EXTRA <<'EOF'
-    configure.args-append --with-perl=${prefix}/bin/perl5.16
+    configure.args-append --with-perl=${prefix}/bin/perl5.18
 EOF
 read -r -d '' PYTHON_EXTRA <<'EOF'
     configure.args-append --with-python=${prefix}/bin/python2.7
