@@ -1,0 +1,11 @@
+--- diffoscope/comparators/tar.py.orig	2015-12-21 15:09:35.000000000 +0100
++++ diffoscope/comparators/tar.py	2015-12-21 15:10:02.000000000 +0100
+@@ -29,7 +29,7 @@
+ class TarListing(Command):
+     @tool_required('tar')
+     def cmdline(self):
+-        return ['tar', '--full-time', '-tvf', self.path]
++        return ['gnutar', '--full-time', '-tvf', self.path]
+ 
+ 
+ class TarFile(File):
