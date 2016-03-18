@@ -1,16 +1,21 @@
 # $Id$
 
 PortSystem 1.0
+PortGroup github 1.0
+PortGroup qt5 1.0
 PortGroup cmake 1.0
 
+github.setup    synergy synergy 1.7.5-stable v
 name            synergy-devel
 set realname    synergy
+version         [lindex [split ${github.version} -] 0]
 conflicts       synergy
-version         1.4.10
 categories      sysutils
 license         GPL-2
 platforms       darwin
-maintainers     nomaintainer
+maintainers     raimue \
+                openmaintainer
+
 description     A client/server for sharing a single mouse and keyboard
 long_description \
     Synergy lets you easily share a single mouse and keyboard \
@@ -18,39 +23,72 @@ long_description \
     without special hardware. It is intended for users with \
     multiple computers on their desk since each system uses its \
     own display.
-homepage        http://synergy-foss.org
-master_sites    googlecode:${realname}
-distname        ${realname}-${version}-Source
 
-checksums       rmd160  829fb9c59312df9698b0e97b9a028396fe9078df \
-                sha256  06d5a2ceb4cf8808cdab22441897c7b54ec8b4bc8351ac116f9accf54c720fbe
+homepage        http://synergy-project.org
 
-patchfiles	patch-CArchFileUnix.cpp.diff \
-                patch-uSynergyUnix.diff
+depends_build-append \
+                bin:unzip:unzip \
+                port:openssl
 
-# Force 32-bit, all kinds of Carbon cruft in here. (#20908)
-supported_archs i386 ppc
+checksums       rmd160  af02eaab3c860ac180417206c9a3b1de224dc9c6 \
+                sha256  c75794c749636bfe4633f7f4b1587e1c216b606869d707a59e44180ecd7a059f
+
+patchfiles	    patch-ArchFileUnix.cpp.diff \
+                patch-qobject-include.diff \
+                patch-external-openssl.diff
+#                patch-external-cryptopp.diff
+
+post-extract {
+    foreach lib {gmock-1.6.0 gtest-1.6.0} {
+        system -W ${worksrcpath}/ext "unzip -d $lib $lib.zip"
+    }
+}
 
 post-patch {
     # Set default config path
-    reinplace "s|@@SYSCONFDIR@@|${prefix}/etc/${realname}|g" ${worksrcpath}/src/lib/arch/CArchFileUnix.cpp
+    reinplace "s|@@SYSCONFDIR@@|${prefix}/etc/${realname}|g" ${worksrcpath}/src/lib/arch/unix/ArchFileUnix.cpp
 
     # Fix build architectures
-    reinplace "s:CMAKE_OSX_ARCHITECTURES \"ppc;i386\":CMAKE_OSX_ARCHITECTURES \"[join [get_canonical_archs] ;]\":" ${worksrcpath}/CMakeLists.txt
+    reinplace -E "s:CMAKE_OSX_ARCHITECTURES \"\[\[:alnum:\];\]+\":CMAKE_OSX_ARCHITECTURES \"[join [get_canonical_archs] ;]\":" ${worksrcpath}/CMakeLists.txt
 }
 
+cmake.out_of_source yes
+configure.args-append   -DOSX_TARGET_MAJOR=[lindex [split ${macosx_deployment_target} .] 0] \
+                        -DOSX_TARGET_MINOR=[lindex [split ${macosx_deployment_target} .] 1]
+
+post-configure {
+    system -W ${worksrcpath}/src/gui "${qt_qmake_cmd} gui.pro -r -spec ${qt_qmake_spec} \
+        \"MACX_LIBS=-framework ApplicationServices -framework Security -framework cocoa -framework ServiceManagement\""
+
+        # QMAKE_MACOSX_DEPLOYMENT_TARGET= QMAKE_MAC_SDK=macosx10.11 \
+        # QMAKE_MAC_SDK.macosx10.11.path=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
+}
+
+build.cmd   ${build.cmd} && make -C ${worksrcpath}/src/gui
+
 destroot {
-        xinstall -d ${destroot}${prefix}/bin
-        xinstall -m 755 ${worksrcpath}/bin/synergyc ${destroot}${prefix}/bin
-        xinstall -m 755 ${worksrcpath}/bin/synergys ${destroot}${prefix}/bin
-        xinstall -m 644 ${worksrcpath}/doc/synergyc.man ${destroot}${prefix}/share/man/man1/synergyc.1
-        xinstall -m 644 ${worksrcpath}/doc/synergys.man ${destroot}${prefix}/share/man/man1/synergys.1
-        xinstall -d ${destroot}${prefix}/etc/${realname}
-        xinstall -m 644 -W ${worksrcpath}/doc/ \
-            synergy.conf.example \
-            synergy.conf.example-advanced \
-            synergy.conf.example-basic \
-            ${destroot}${prefix}/etc/${realname}
+    if [variant_isset debug] {
+        set bindir ${worksrcpath}/bin/debug
+    } else {
+        set bindir ${worksrcpath}/bin
+    }
+
+    xinstall -d ${destroot}${prefix}/bin
+    copy ${worksrcpath}/bin/Synergy.app ${destroot}${applications_dir}
+    for tool {synergyc synergyd synergys syntool usynergy} {
+        xinstall -m 755 -W ${bindir} ${tool} ${destroot}${prefix}/bin
+        ln -s ${prefix}/bin/${tool} ${destroot}${applications_dir}/Contents/MacOS/${tool}
+    }
+
+    xinstall -m 644 -W ${worksrcpath}/doc synergyc.man ${destroot}${prefix}/share/man/man1/synergyc.1
+    xinstall -m 644 -W ${worksrcpath}/doc synergys.man ${destroot}${prefix}/share/man/man1/synergys.1
+
+    xinstall -d ${destroot}${prefix}/etc/${realname}
+    xinstall -m 644 -W ${worksrcpath}/doc/ \
+        synergy.conf.example \
+        synergy.conf.example-advanced \
+        synergy.conf.example-basic \
+        ${destroot}${prefix}/etc/${realname}
 }
 
 startupitem.create      yes

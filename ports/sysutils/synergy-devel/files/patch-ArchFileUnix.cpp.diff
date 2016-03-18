@@ -1,0 +1,11 @@
+--- src/lib/arch/unix/ArchFileUnix.cpp.orig	2015-03-22 18:16:45.000000000 +0100
++++ src/lib/arch/unix/ArchFileUnix.cpp	2015-03-22 18:17:09.000000000 +0100
+@@ -85,7 +85,7 @@
+ std::string
+ ArchFileUnix::getSystemDirectory()
+ {
+-	return "/etc";
++	return "@@SYSCONFDIR@@";
+ }
+ 
+ std::string

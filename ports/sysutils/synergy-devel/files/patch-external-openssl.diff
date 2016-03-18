@@ -1,0 +1,55 @@
+--- src/lib/plugin/ns/CMakeLists.txt.orig	2016-01-15 18:17:01.000000000 +0100
++++ src/lib/plugin/ns/CMakeLists.txt	2016-01-15 18:19:54.000000000 +0100
+@@ -29,11 +29,6 @@
+ 	set(OPENSSL_INCLUDE ../../../../ext/${OPENSSL_PLAT_DIR}/inc32)
+ endif()
+ 
+-if (APPLE)
+-	set(OPENSSL_PLAT_DIR openssl-osx)
+-	set(OPENSSL_INCLUDE ../../../../ext/${OPENSSL_PLAT_DIR}/include)
+-endif()
+-
+ include_directories(
+ 	../../../lib/
+ 	../../../..
+@@ -50,14 +45,7 @@
+ endif()
+ 
+ if (UNIX)
+-	if (APPLE)
+-		set(OPENSSL_LIBS
+-		${CMAKE_SOURCE_DIR}/ext/${OPENSSL_PLAT_DIR}/libssl.a
+-		${CMAKE_SOURCE_DIR}/ext/${OPENSSL_PLAT_DIR}/libcrypto.a
+-		)
+-	else()
+ 		set(OPENSSL_LIBS ssl crypto)
+-	endif()
+ endif()
+ 
+ target_link_libraries(ns
+@@ -88,19 +76,6 @@
+ endif()
+ 
+ if (UNIX)
+-	if (APPLE)
+-		add_custom_command(
+-			TARGET ns
+-			POST_BUILD
+-			COMMAND
+-				mkdir -p
+-				${CMAKE_SOURCE_DIR}/bin/${CMAKE_CFG_INTDIR}/plugins
+-				&&
+-				cp
+-				${CMAKE_SOURCE_DIR}/lib/${CMAKE_CFG_INTDIR}/libns.*
+-				${CMAKE_SOURCE_DIR}/bin/${CMAKE_CFG_INTDIR}/plugins/
+-		)
+-	else()
+ 		if (CMAKE_BUILD_TYPE STREQUAL Debug)
+ 			add_custom_command(
+ 				TARGET ns
+@@ -124,5 +99,4 @@
+ 					${CMAKE_SOURCE_DIR}/bin/plugins/
+ 			)
+ 		endif()
+-	endif()
+ endif()
