@@ -4,7 +4,7 @@ PortSystem 1.0
 PortGroup cmake 1.0
 
 name                clog
-version             1.2.1
+version             1.3.0
 categories          sysutils textproc
 platforms           darwin
 license             MIT
@@ -15,12 +15,11 @@ long_description \
     stream and colorize or suppress the lines. It can also decorate the lines \
     with time- or date-stamps.
 
-homepage            http://tasktools.org/projects/clog.html
-master_sites        http://tasktools.org/download/
+homepage            https://tasktools.org/
+master_sites        https://tasktools.org/download/
 
-checksums           rmd160  d49f820e1e25f4020c28de68c1440e32f6eea9aa \
-                    sha256  880cfe248326a5c6f7c2a183008c76fae8b78c45f6e5795f74d02627e634f29d
+checksums           rmd160  b4044ebd891cd6ca88c314fd397782e57ab77a70 \
+                    sha256  fed44a8d398790ab0cf426c1b006e7246e20f3fcd56c0ec4132d24b05d5d2018
 
 livecheck.type      regex
-livecheck.url       http://tasktools.org/
 livecheck.regex     ${name}-(\\d(\\.\\d)+)\\.tar
