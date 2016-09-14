@@ -5,7 +5,7 @@ PortGroup           github 1.0
 
 name                vim
 set vim_version     8.0
-set vim_patchlevel  0002
+set vim_patchlevel  0003
 github.setup        vim vim ${vim_version}.${vim_patchlevel} v
 categories          editors
 platforms           darwin freebsd
@@ -18,8 +18,8 @@ long_description \
 
 homepage            http://www.vim.org/
 
-checksums           rmd160  d60bc797228542a058a99d7d45e7e8eeddb28424 \
-                    sha256  cf00924f9be1b98c8e981263c4ca90e5bcde60438b5b35c0ba9885c4fef890d5
+checksums           rmd160  57836f9ae2f2fb6dddd3f93acc4092243436d6dc \
+                    sha256  d3d3c1e7d72fd0dda59e5ac319be742df08db7c948b992543b994d66c4dcabf0
 
 depends_build       bin:grep:grep
 depends_lib         port:ncurses \
