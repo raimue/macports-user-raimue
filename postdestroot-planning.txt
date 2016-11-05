@@ -1,0 +1,10 @@
+Additional new checks after destroot could include:
+
+  * verify the binaries in the output directory match the requested architectures (especially for `+universal`)
+  * verify linked libraries are provided by MacPorts or the system (no `/usr/local`)
+  * verify libraries were linked using `-headerpad_max_install_names`
+  * verify binaries/libraries were linked to libraries from ports declared as dependencies only
+  * if no binary files exist at all, propose to add `supported_archs no` to the Portfile
+  * verify all created symlinks will point to a existing path after activation
+  * Python/Perl/Ruby scripts in `${prefix}/bin/` use the right interpreters (no `/usr/bin`, correct version matching the dependencies)
+  * ...
